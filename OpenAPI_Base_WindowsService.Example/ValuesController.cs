@@ -1,0 +1,38 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace OpenAPI_Base_WindowsService.Example
+{
+    /// <summary>
+    /// ValuesController
+    /// </summary>
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ValuesController : ControllerBase
+    {
+        /// <summary>
+        /// Add
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult Add(int a, int b)
+        {
+            return Ok(a + b);
+        }
+
+        /// <summary>
+        /// Sub
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult Sub(int a, int b)
+        {
+            return Ok(a - b);
+        }
+    }
+}

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\Larry.Lai\Desktop\GitHub\awen221\OpenAPI\OpenAPI_Base_WindowsService.Example\OpenAPI_Base_WindowsService.Example.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenAPI_Base_WindowsService\OpenAPI_Base_WindowsService.csproj" />
+  </ItemGroup>
+
+</Project>

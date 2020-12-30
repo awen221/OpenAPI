@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenAPI_Base.Example</name>
+    </assembly>
+    <members>
+        <member name="T:OpenAPI_Base.Example.Program">
+            <summary>
+            Program
+            </summary>
+        </member>
+        <member name="M:OpenAPI_Base.Example.Program.Main(System.String[])">
+            <summary>
+            Main
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="T:OpenAPI_Base.Example.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:OpenAPI_Base.Example.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Startup
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:OpenAPI_Base.Example.Startup.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:OpenAPI_Base.Example.Startup.OpenApiInfo">
+            <summary>
+            OpenApiInfo
+            </summary>
+        </member>
+        <member name="T:OpenAPI_Base.Example.ValuesController">
+            <summary>
+            ValuesController
+            </summary>
+        </member>
+        <member name="M:OpenAPI_Base.Example.ValuesController.Add(System.Int32,System.Int32)">
+            <summary>
+            Add
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenAPI_Base.Example.ValuesController.Sub(System.Int32,System.Int32)">
+            <summary>
+            Sub
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
