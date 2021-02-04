@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Larry.Lai\Desktop\GitHub\awen221\OpenAPI\OpenAPI_Base_WindowsService.Example\OpenAPI_Base_WindowsService.Example.xml</DocumentationFile>
+    <DocumentationFile>OpenAPI_Base_WindowsService.Example.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

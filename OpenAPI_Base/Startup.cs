@@ -23,6 +23,10 @@ namespace OpenAPI_Base
         /// OpenApiInfo
         /// </summary>
         abstract protected OpenApiInfo OpenApiInfo { get; }
+        /// <summary>
+        /// AlwaysUseSwaggerUI
+        /// </summary>
+        virtual protected bool AlwaysUseSwaggerUI => true;
 
         /// <summary>
         /// Startup
@@ -79,7 +83,10 @@ namespace OpenAPI_Base
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            bool useSwaggerUI = env.IsDevelopment();
+            if (AlwaysUseSwaggerUI) useSwaggerUI = true;
+
+            if (useSwaggerUI)
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();

@@ -5,7 +5,7 @@ namespace OpenAPI_Base.Example
     /// <summary>
     /// ValuesController
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
@@ -16,7 +16,6 @@ namespace OpenAPI_Base.Example
         /// <param name="b"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("[action]")]
         public IActionResult Add(int a, int b)
         {
             return Ok(a + b);
@@ -29,7 +28,6 @@ namespace OpenAPI_Base.Example
         /// <param name="b"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("[action]")]
         public IActionResult Sub(int a, int b)
         {
             return Ok(a - b);
