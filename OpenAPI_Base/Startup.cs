@@ -92,7 +92,7 @@ namespace OpenAPI_Base
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/" + Name + "/swagger.json", OpenApiInfo.Title + " " + OpenApiInfo.Version);
+                    c.SwaggerEndpoint("swagger/" + Name + "/swagger.json", OpenApiInfo.Title + " " + OpenApiInfo.Version);
                     //將預設結尾路徑"\swagger"清空
                     c.RoutePrefix = string.Empty;
                 });
