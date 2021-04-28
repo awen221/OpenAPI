@@ -4,17 +4,6 @@
         <name>OpenAPI_Base_WindowsService.Example</name>
     </assembly>
     <members>
-        <member name="T:OpenAPI_Base_WindowsService.Example.Program">
-            <summary>
-            Program
-            </summary>
-        </member>
-        <member name="M:OpenAPI_Base_WindowsService.Example.Program.Main(System.String[])">
-            <summary>
-            Main
-            </summary>
-            <param name="args"></param>
-        </member>
         <member name="T:OpenAPI_Base_WindowsService.Example.Startup">
             <summary>
             Startup

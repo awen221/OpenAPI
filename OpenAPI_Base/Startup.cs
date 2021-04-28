@@ -10,43 +10,24 @@ using Microsoft.OpenApi.Models;
 
 namespace OpenAPI_Base
 {
-    /// <summary>
-    /// Startup
-    /// </summary>
+
     abstract public class Startup
     {
-        /// <summary>
-        /// Name
-        /// </summary>
+
         abstract protected string Name { get; }
-        /// <summary>
-        /// OpenApiInfo
-        /// </summary>
+
         abstract protected OpenApiInfo OpenApiInfo { get; }
-        /// <summary>
-        /// AlwaysUseSwaggerUI
-        /// </summary>
+
         virtual protected bool AlwaysUseSwaggerUI => true;
 
-        /// <summary>
-        /// Startup
-        /// </summary>
-        /// <param name="configuration"></param>
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        /// <summary>
-        /// Configuration
-        /// </summary>
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// ConfigureServices
-        /// </summary>
-        /// <param name="services"></param>
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -75,11 +56,6 @@ namespace OpenAPI_Base
             });
         }
 
-        /// <summary>
-        /// Configure
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -107,37 +83,27 @@ namespace OpenAPI_Base
                 endpoints.MapControllers();
             });
         }
+
     }
+
 }
 
 #region Example
 /*        
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.OpenApi.Models;
-    /// <summary>
-    /// Startup
-    /// </summary>
-    public class Startup : OpenAPI_Base.Startup
+using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
+
+public class Startup : OpenAPI_Base.Startup
+{
+    public Startup(IConfiguration configuration) : base(configuration) { }
+
+    protected override string Name => "Name";
+
+    protected override OpenApiInfo OpenApiInfo => new OpenApiInfo()
     {
-        /// <summary>
-        /// Startup
-        /// </summary>
-        /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration) : base(configuration)
-        {
-        }
-        /// <summary>
-        /// Name
-        /// </summary>
-        protected override string Name => "Name";
-        /// <summary>
-        /// OpenApiInfo
-        /// </summary>
-        protected override OpenApiInfo OpenApiInfo => new OpenApiInfo()
-        {
-            Title = "Title",
-            Version = "1.0",
-        };
-    }
+        Title = "Title",
+        Version = "1.0",
+    };
+}
 */
 #endregion
