@@ -10,25 +10,25 @@ namespace OpenAPI_Base.Example
     public class ValuesController : ControllerBase
     {
         /// <summary>
-        /// Add
+        /// 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Add(int a, int b)
+        public IActionResult Get(int a, int b)
         {
             return Ok(a + b);
         }
 
         /// <summary>
-        /// Sub
+        /// 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        [HttpGet]
-        public IActionResult Sub(int a, int b)
+        [HttpPost]
+        public IActionResult Post(int a, int b)
         {
             return Ok(a - b);
         }

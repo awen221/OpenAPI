@@ -1,30 +1,31 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 
 namespace OpenAPI_Base
 {
-
     public class Program
     {
-
-        public static void Main<TStartup>(string[] args) where TStartup : Startup
-        {
-            CreateHostBuilder<TStartup>(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder<TStartup>(string[] args) where TStartup : Startup =>
-            Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
+        static public IHostBuilder CreateHostBuilder<TStartup>(string[] args) where TStartup : class
+            => Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<TStartup>();
             });
-
     }
-
 }
 
 #region Example
 /*
-public class Program { static void Main(string[] args) => OpenAPI_Base.Program.Main<Startup>(args); }
+    using Microsoft.Extensions.Hosting;
+    /// <summary>
+    /// 
+    /// </summary>
+    class Program
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        static public void Main(string[] args) => OpenAPI_Base.Program.CreateHostBuilder<Startup>(args).Build().Run();
+    }
 */
 #endregion

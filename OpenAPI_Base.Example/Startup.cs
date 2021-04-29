@@ -1,18 +1,22 @@
 namespace OpenAPI_Base.Example
 {
-    using Microsoft.Extensions.Configuration;
     using Microsoft.OpenApi.Models;
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup : OpenAPI_Base.Startup
     {
-        public Startup(IConfiguration configuration) : base(configuration) { }
-
-        protected override string Name => "Name";
-
-        protected override OpenApiInfo OpenApiInfo => new OpenApiInfo()
-        {
-            Title = "Title",
-            Version = "1.0",
-        };
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override bool AlwaysUseSwaggerUI => base.AlwaysUseSwaggerUI;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override string Name => base.Name;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override OpenApiInfo OpenApiInfo => base.OpenApiInfo;
     }
 }

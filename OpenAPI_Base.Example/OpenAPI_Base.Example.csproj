@@ -2,11 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>98a23f28-1952-45b2-a0a4-1e0c8c4cd4b8</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>OpenAPI_Base.Example.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net5.0\OpenAPI_Base.Example.xml</DocumentationFile>
+    <OutputPath></OutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\net5.0\OpenAPI_Base.Example.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="OpenAPI_Base.Example.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OpenAPI_Base\OpenAPI_Base.csproj" />
