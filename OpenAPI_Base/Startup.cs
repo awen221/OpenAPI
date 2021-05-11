@@ -2,14 +2,15 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Newtonsoft.Json;
 
 namespace OpenAPI_Base
 {
@@ -38,7 +39,9 @@ namespace OpenAPI_Base
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                //Add下列Func可直接回傳DataTable
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(Name, OpenApiInfo);
