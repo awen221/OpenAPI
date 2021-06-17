@@ -104,6 +104,8 @@ interface IStartUp_interface
 
 #region Example
 /*        
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.OpenApi.Models;
     /// <summary>
     /// 
@@ -126,6 +128,6 @@ interface IStartUp_interface
         /// 
         /// </summary>
         protected override OpenApiInfo OpenApiInfo => base.OpenApiInfo;
-    }
+	}
 */
 #endregion
