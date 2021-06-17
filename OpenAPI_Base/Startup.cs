@@ -14,15 +14,18 @@ using Newtonsoft.Json;
 
 namespace OpenAPI_Base
 {
-    public class Startup : StartUp_interface
+    public class Startup : IStartUp_interface
     {
         virtual protected bool AlwaysUseSwaggerUI => true;
         virtual protected string Name => nameof(OpenAPI_Base);
-        virtual protected OpenApiInfo OpenApiInfo => new OpenApiInfo()
+        virtual protected OpenApiInfo OpenApiInfo => new()
         {
             Title = nameof(OpenApiInfo),
             Version = new Version().ToString(),
         };
+        virtual protected void Init()
+        {
+        }
 
         class EnumSchemaFilter : ISchemaFilter
         {
@@ -96,7 +99,7 @@ namespace OpenAPI_Base
         }
     }
 }
-interface StartUp_interface
+interface IStartUp_interface
 {
     void ConfigureServices(IServiceCollection services);
     void Configure(IApplicationBuilder app, IWebHostEnvironment env);
@@ -110,6 +113,10 @@ interface StartUp_interface
     /// </summary>
     public class Startup : OpenAPI_Base.Startup
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override void Init() => base.Init();
         /// <summary>
         /// 
         /// </summary>
