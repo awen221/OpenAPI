@@ -23,9 +23,6 @@ namespace OpenAPI_Base
             Title = nameof(OpenApiInfo),
             Version = new Version().ToString(),
         };
-        virtual protected void Init()
-        {
-        }
 
         class EnumSchemaFilter : ISchemaFilter
         {
@@ -66,7 +63,7 @@ namespace OpenAPI_Base
             });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        virtual public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             void SetSwaggerUI(IApplicationBuilder app, IWebHostEnvironment env)
             {
@@ -116,7 +113,7 @@ interface IStartUp_interface
         /// <summary>
         /// 
         /// </summary>
-        protected override void Init() => base.Init();
+        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env) => base.Configure(app, env);
         /// <summary>
         /// 
         /// </summary>
