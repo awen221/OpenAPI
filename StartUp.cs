@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 namespace OpenAPI
 {
@@ -9,6 +9,8 @@ namespace OpenAPI
     /// </summary>
     abstract public class StartUp
     {
+        #region OpenApiInfo
+
         /// <summary>
         /// 
         /// </summary>
@@ -31,38 +33,23 @@ namespace OpenAPI
             Version = Version.ToString(),
             Description = Description,
         };
+
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="builder"></param>
         protected virtual void WebApplicationBuilder_Process(WebApplicationBuilder builder) 
         {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="app"></param>
-        protected virtual void WebApplication_Process(WebApplication app) 
-        { 
-            app.UseAuthorization(); 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="args"></param>
-        /// <exception cref="Exception"></exception>
-        public void Main(string[] args)
-        {
-            #region WebApplicationBuilder
-            var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
-
             builder.Services.AddControllers();
-            //讓JSON成員名稱大小寫不會被變動
-            builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
+            //讓JSON成員名稱大小寫不會被變動
+            builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            //WebApplicationBuilder Swagger設定
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(OpenApiInfo.Version, OpenApiInfo);
@@ -84,13 +71,13 @@ namespace OpenAPI
                 }
                 #endregion
             });
-
-            WebApplicationBuilder_Process(builder);
-            #endregion
-
-            #region WebApplication
-            var app = builder.Build();
-
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        protected virtual void WebApplication_Process(WebApplication app) 
+        {
             // Configure the HTTP request pipeline.
             //if (app.Environment.IsDevelopment())
             {
@@ -98,17 +85,33 @@ namespace OpenAPI
                 app.UseSwaggerUI(c =>
                 {
                     #region 略過swagger前綴路徑，
-                    c.SwaggerEndpoint($"swagger/{OpenApiInfo.Version}/swagger.json", $"{OpenApiInfo.Title} {OpenApiInfo.Version}");
+                    c.SwaggerEndpoint(
+                        $"swagger/{OpenApiInfo.Version}/swagger.json",
+                        $"{OpenApiInfo.Title} {OpenApiInfo.Version}"
+                        );
                     c.RoutePrefix = string.Empty;
                     #endregion
                 });
             }
 
-            WebApplication_Process(app);
+            app.UseAuthorization();
 
             app.MapControllers();
+
             app.Run();
-            #endregion
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <exception cref="Exception"></exception>
+        public void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder_Process(builder);
+
+            var app = builder.Build();
+            WebApplication_Process(app);
         }
     }
 }
