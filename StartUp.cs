@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,7 +7,7 @@ namespace OpenAPI
 {
 
     /// <summary>
-    /// 
+    /// StartUp
     /// </summary>
     abstract public class StartUp
     {
@@ -14,20 +15,20 @@ namespace OpenAPI
         #region OpenApiInfo
 
         /// <summary>
-        /// 
+        /// Title
         /// </summary>
         abstract protected string Title { get; }
         /// <summary>
-        /// 
+        /// Version
         /// </summary>
         abstract protected Version Version { get; }
         /// <summary>
-        /// 
+        /// Description
         /// </summary>
         abstract protected string Description { get; }
 
         /// <summary>
-        /// 
+        /// OpenApiInfo
         /// </summary>
         OpenApiInfo OpenApiInfo => new()
         {
@@ -39,16 +40,16 @@ namespace OpenAPI
         #endregion
 
         /// <summary>
-        /// 
+        /// WebApplicationBuilder_Process
         /// </summary>
         /// <param name="builder"></param>
         protected virtual void WebApplicationBuilder_Process(WebApplicationBuilder builder) { }
 
         /// <summary>
-        /// 
+        /// WebApplication_Process
         /// </summary>
         /// <param name="app"></param>
-        protected virtual void WebApplication_Process(WebApplication app) 
+        protected virtual void WebApplication_Process(WebApplication app)
         {
             app.UseAuthorization();
 
@@ -56,7 +57,7 @@ namespace OpenAPI
         }
 
         /// <summary>
-        /// 
+        /// Main
         /// </summary>
         /// <param name="args"></param>
         /// <exception cref="Exception"></exception>
@@ -68,16 +69,21 @@ namespace OpenAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                //讓JSON成員名稱大小寫不會被變動
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                //讓參數Enum列舉的值以變數名稱顯示
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
-            //讓JSON成員名稱大小寫不會被變動
-            builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             //設定Swagger WebApplicationBuilder
-            builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc(OpenApiInfo.Version, OpenApiInfo);
+                options.SwaggerDoc(OpenApiInfo.Version, OpenApiInfo);
 
                 #region UI 顯示函式註解：專案屬性->建置->輸出->勾選'XML 文件檔案'可在SwaggerUI頁面上輸出函式註解
                 try
@@ -87,7 +93,7 @@ namespace OpenAPI
                     {
                         var xmlFile = $"{Assembly.GetName().Name}.xml";
                         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                        c.IncludeXmlComments(xmlPath);
+                        options.IncludeXmlComments(xmlPath);
                     }
                 }
                 catch
@@ -107,9 +113,9 @@ namespace OpenAPI
 
             WebApplication_Process(app);
 
-            ///設定Swagger WebApplication
+            //設定Swagger WebApplication
             // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
+            // if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
