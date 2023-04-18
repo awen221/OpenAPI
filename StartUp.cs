@@ -43,31 +43,8 @@ namespace OpenAPI
         /// WebApplicationBuilder_Process
         /// </summary>
         /// <param name="builder"></param>
-        protected virtual void WebApplicationBuilder_Process(WebApplicationBuilder builder) { }
-
-        /// <summary>
-        /// WebApplication_Process
-        /// </summary>
-        /// <param name="app"></param>
-        protected virtual void WebApplication_Process(WebApplication app)
+        protected virtual void WebApplicationBuilder_Process(WebApplicationBuilder builder) 
         {
-            app.UseAuthorization();
-
-            app.MapControllers();
-        }
-
-        /// <summary>
-        /// Main
-        /// </summary>
-        /// <param name="args"></param>
-        /// <exception cref="Exception"></exception>
-        public void Main(string[] args)
-        {
-
-            #region WebApplicationBuilder
-
-            var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
@@ -102,18 +79,31 @@ namespace OpenAPI
                 }
                 #endregion
             });
+        }
 
+        /// <summary>
+        /// WebApplication_Process
+        /// </summary>
+        /// <param name="app"></param>
+        protected virtual void WebApplication_Process(WebApplication app) { }
+
+        /// <summary>
+        /// Main
+        /// </summary>
+        /// <param name="args"></param>
+        /// <exception cref="Exception"></exception>
+        public void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
             WebApplicationBuilder_Process(builder);
 
-            #endregion
-
-            #region WebApplication
-
             var app = builder.Build();
-
             WebApplication_Process(app);
 
-            //設定Swagger WebApplication
+            #region 這裡勿調動，容易影響正常執行
+            app.UseAuthorization();
+            app.MapControllers();
+
             // Configure the HTTP request pipeline.
             // if (app.Environment.IsDevelopment())
             {
@@ -131,9 +121,7 @@ namespace OpenAPI
             }
 
             app.Run();
-
             #endregion
-
         }
 
     }
