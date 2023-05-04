@@ -17,16 +17,33 @@
     public class StartUp : OpenAPI.StartUp
     {
         /// <summary>
-        /// 
+        /// Title
         /// </summary>
         protected override string Title => "OpenAPI";
         /// <summary>
-        /// 
+        /// Version
         /// </summary>
         protected override Version Version => new Version("1.0.0.0");
         /// <summary>
-        /// 
+        /// Description
         /// </summary>
         protected override string Description => "OpenAPI Description";
+
+        /// <summary>
+        /// WebApplication_Process
+        /// </summary>
+        /// <param name="app"></param>
+        protected override void WebApplication_Process(WebApplication app)
+        {
+            base.WebApplication_Process(app);
+        }
+        /// <summary>
+        /// WebApplicationBuilder_Process
+        /// </summary>
+        /// <param name="builder"></param>
+        protected override void WebApplicationBuilder_Process(WebApplicationBuilder builder)
+        {
+            base.WebApplicationBuilder_Process(builder);
+        }
     }
     ```
