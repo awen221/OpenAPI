@@ -2,42 +2,19 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace OpenAPI
 {
-
     /// <summary>
     /// StartUp
     /// </summary>
     abstract public class StartUp
     {
-
-        #region OpenApiInfo
-
         /// <summary>
-        /// Title
+        /// SwaggerDocs
         /// </summary>
-        abstract protected string Title { get; }
-        /// <summary>
-        /// Version
-        /// </summary>
-        abstract protected Version Version { get; }
-        /// <summary>
-        /// Description
-        /// </summary>
-        abstract protected string Description { get; }
-
-        /// <summary>
-        /// OpenApiInfo
-        /// </summary>
-        OpenApiInfo OpenApiInfo => new()
-        {
-            Title = Title,
-            Version = Version.ToString(),
-            Description = Description,
-        };
-
-        #endregion
+        abstract protected Dictionary<string, OpenApiInfo> SwaggerDocs { get; }
 
         /// <summary>
         /// WebApplicationBuilder_Process
@@ -45,8 +22,9 @@ namespace OpenAPI
         /// <param name="builder"></param>
         protected virtual void WebApplicationBuilder_Process(WebApplicationBuilder builder) 
         {
+            var services = builder.Services;
             // Add services to the container.
-            builder.Services.AddControllers().AddJsonOptions(options =>
+            services.AddControllers().AddJsonOptions(options =>
             {
                 //讓JSON成員名稱大小寫不會被變動
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -55,12 +33,15 @@ namespace OpenAPI
             });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
+            services.AddEndpointsApiExplorer();
 
             //設定Swagger WebApplicationBuilder
-            builder.Services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc(OpenApiInfo.Version, OpenApiInfo);
+                foreach (var name in SwaggerDocs.Keys)
+                {
+                    options.SwaggerDoc(name, SwaggerDocs[name]);
+                }
 
                 #region UI 顯示函式註解：專案屬性->建置->輸出->勾選'XML 文件檔案'可在SwaggerUI頁面上輸出函式註解
                 try
@@ -80,7 +61,6 @@ namespace OpenAPI
                 #endregion
             });
         }
-
         /// <summary>
         /// WebApplication_Process
         /// </summary>
@@ -100,30 +80,22 @@ namespace OpenAPI
             var app = builder.Build();
             WebApplication_Process(app);
 
-            #region 這裡勿調動，容易影響正常執行
-            app.UseAuthorization();
-            app.MapControllers();
-
-            // Configure the HTTP request pipeline.
-            // if (app.Environment.IsDevelopment())
+            //if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    #region 略過swagger前綴路徑，
-                    c.SwaggerEndpoint(
-                        $"swagger/{OpenApiInfo.Version}/swagger.json",
-                        $"{OpenApiInfo.Title} {OpenApiInfo.Version}"
-                        );
-                    c.RoutePrefix = string.Empty;
-                    #endregion
+                app.UseSwaggerUI(option => {
+                    foreach (var name in SwaggerDocs.Keys)
+                    {
+                        option.SwaggerEndpoint($"{name}/swagger.json", $"{name}");
+                    }
                 });
             }
 
+            #region 這裡勿調動，容易影響正常執行
+            app.UseAuthorization();
+            app.MapControllers();
             app.Run();
             #endregion
         }
-
     }
-
 }
