@@ -2,7 +2,6 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace OpenAPI
 {
@@ -14,7 +13,12 @@ namespace OpenAPI
         /// <summary>
         /// SwaggerDocs
         /// </summary>
-        abstract protected Dictionary<string, OpenApiInfo> SwaggerDocs { get; }
+        Dictionary<string, OpenApiInfo> SwaggerDocs => GetSwaggerDocs();
+        /// <summary>
+        /// GetSwaggerDocs
+        /// </summary>
+        /// <returns></returns>
+        abstract protected Dictionary<string, OpenApiInfo> GetSwaggerDocs();
 
         /// <summary>
         /// WebApplicationBuilder_Process
@@ -38,18 +42,18 @@ namespace OpenAPI
             //設定Swagger WebApplicationBuilder
             services.AddSwaggerGen(options =>
             {
-                foreach (var name in SwaggerDocs.Keys)
+                foreach (var SwaggerDoc_Name in SwaggerDocs.Keys)
                 {
-                    options.SwaggerDoc(name, SwaggerDocs[name]);
+                    var openapi_info = SwaggerDocs[SwaggerDoc_Name];
+                    options.SwaggerDoc(SwaggerDoc_Name, openapi_info);
                 }
 
                 #region UI 顯示函式註解：專案屬性->建置->輸出->勾選'XML 文件檔案'可在SwaggerUI頁面上輸出函式註解
                 try
                 {
-                    var Assembly = System.Reflection.Assembly.GetEntryAssembly();
-                    if (Assembly != null)
+                    foreach (var SwaggerDoc_Name in SwaggerDocs.Keys)
                     {
-                        var xmlFile = $"{Assembly.GetName().Name}.xml";
+                        var xmlFile = $"{SwaggerDoc_Name}.xml";
                         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                         options.IncludeXmlComments(xmlPath);
                     }
@@ -84,9 +88,10 @@ namespace OpenAPI
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(option => {
-                    foreach (var name in SwaggerDocs.Keys)
+                    foreach (var SwaggerDoc_Name in SwaggerDocs.Keys)
                     {
-                        option.SwaggerEndpoint($"{name}/swagger.json", $"{name}");
+                        var downdrop_item_name = SwaggerDocs[SwaggerDoc_Name].Title;
+                        option.SwaggerEndpoint($"{SwaggerDoc_Name}/swagger.json", $"{downdrop_item_name}");
                     }
                 });
             }
