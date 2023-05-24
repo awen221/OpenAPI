@@ -70,6 +70,10 @@ namespace OpenAPI
         /// </summary>
         /// <param name="app"></param>
         protected virtual void WebApplication_Process(WebApplication app) { }
+        /// <summary>
+        /// OnClose
+        /// </summary>
+        protected virtual void OnClose() { }
 
         /// <summary>
         /// Main
@@ -101,6 +105,8 @@ namespace OpenAPI
             app.MapControllers();
             app.Run();
             #endregion
+
+            OnClose();
         }
     }
 }
